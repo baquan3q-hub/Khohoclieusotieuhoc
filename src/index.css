@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Nunito:ital,wght@0,300..1000;1,300..1000&display=swap');
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #FCFBF7;
+    color: #2F3A32;
+    font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Baloo 2', 'Nunito', system-ui, sans-serif;
+    font-weight: 700;
+    color: #2F3A32;
+  }
+}
+
+/* Custom Scrollbar for premium feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FCFBF7;
+}
+::-webkit-scrollbar-thumb {
+  background: #A8D5BA;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8ec3a2;
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
