@@ -107,12 +107,12 @@ export const Lessons: React.FC = () => {
               className="w-full py-2.5 px-3 rounded-xl border border-[#E6E4DD] text-sm focus:outline-none focus:ring-2 focus:ring-[#A8D5BA] focus:border-transparent bg-white"
             >
               <option value="all">Tất cả tài nguyên</option>
-              <option value="video">Có Video bài học</option>
-              <option value="interactive_worksheet">Có Phiếu tương tác</option>
-              <option value="podcast">Có Podcast kể chuyện</option>
-              <option value="visual_worksheet">Có Phiếu trực quan</option>
-              <option value="drama_script">Có Kịch bản đóng vai</option>
-              <option value="lesson_plan">Có Giáo án mẫu</option>
+              <option value="video">Video bài học</option>
+              <option value="interactive_worksheet">Phiếu tương tác</option>
+              <option value="podcast">Podcast kể chuyện</option>
+              <option value="visual_worksheet">Phiếu trực quan</option>
+              <option value="drama_script">Kịch bản đóng vai</option>
+              <option value="lesson_plan">Giáo án mẫu</option>
             </select>
           </div>
 
