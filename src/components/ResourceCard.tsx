@@ -15,6 +15,13 @@ import {
   ChevronUp,
 } from 'lucide-react';
 
+const isVideoUrl = (url: string | null) => {
+  if (!url) return false;
+  if (url.includes('youtube.com') || url.includes('youtu.be')) return true;
+  const path = url.split('?')[0].toLowerCase();
+  return path.endsWith('.mp4') || path.endsWith('.webm') || path.endsWith('.ogg') || path.endsWith('.mov');
+};
+
 interface ResourceCardProps {
   resource: Resource;
   showLessonInfo?: boolean;
@@ -139,11 +146,18 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showLesson
       {/* Embedded View Panel (Expanded) */}
       {isExpanded && isEmbeddable && (
         <div className="border-t border-[#E6E4DD] pt-4 mt-2">
-          {resource.resource_type === 'video' && externalUrl && (
-            <VideoEmbed url={externalUrl} title={resource.title} />
+          {resource.resource_type === 'video' && (externalUrl || fileUrl) && (
+            <VideoEmbed url={externalUrl || fileUrl || ''} title={resource.title} />
           )}
-          {resource.resource_type === 'podcast' && fileUrl && (
-            <AudioPlayer url={fileUrl} title={resource.title} />
+          {resource.resource_type === 'podcast' && (
+            <>
+              {externalUrl && <VideoEmbed url={externalUrl} title={resource.title} />}
+              {!externalUrl && fileUrl && (
+                isVideoUrl(fileUrl) 
+                  ? <VideoEmbed url={fileUrl} title={resource.title} />
+                  : <AudioPlayer url={fileUrl} title={resource.title} />
+              )}
+            </>
           )}
           {!externalUrl && !fileUrl && (
             <div className="p-4 bg-amber-50 text-amber-800 rounded-xl text-sm italic">
@@ -164,7 +178,15 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({ resource, showLesson
             onClick={handleActionClick}
             className="inline-flex items-center space-x-1.5 px-4.5 py-2 rounded-xl text-sm font-bold bg-[#DFF3E3] text-[#2F3A32] hover:bg-[#A8D5BA] transition-colors"
           >
-            <span>{isExpanded ? 'Thu gọn' : resource.resource_type === 'video' ? 'Xem video' : 'Nghe Podcast'}</span>
+            <span>
+              {isExpanded 
+                ? 'Thu gọn' 
+                : resource.resource_type === 'video' 
+                  ? 'Xem video' 
+                  : (externalUrl || isVideoUrl(fileUrl)) 
+                    ? 'Xem Podcast' 
+                    : 'Nghe Podcast'}
+            </span>
             {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
           </button>
         )}

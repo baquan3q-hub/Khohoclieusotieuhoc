@@ -240,7 +240,7 @@ export const ResourceCreateEdit: React.FC = () => {
               )}
               {resourceGroup === 'reading_support' && (
                 <>
-                  <option value="podcast">Podcast (MP3 Audio)</option>
+                  <option value="podcast">Podcast (MP3 Audio / MP4 Video / YouTube Link)</option>
                   <option value="visual_worksheet">Phiếu bài tập trực quan (PDF/DOCX...)</option>
                 </>
               )}
@@ -301,12 +301,13 @@ export const ResourceCreateEdit: React.FC = () => {
               <div className="space-y-3 p-4 bg-[#FCFBF7] border border-[#E6E4DD] rounded-2xl">
                 <label className="text-sm font-bold text-[#2F3A32] flex items-center space-x-1">
                   <Upload size={16} />
-                  <span>Tải tệp tin lên hệ thống (PDF, Word, MP3, Hình ảnh) *</span>
+                  <span>Tải tệp tin lên hệ thống (PDF, Word, MP3, MP4, Hình ảnh) *</span>
                 </label>
+                <span className="text-xs text-[#6B756D] block mt-0.5">Dung lượng tối đa: 50MB. Hỗ trợ âm thanh (MP3), video (MP4) và các định dạng tài liệu thông thường.</span>
                 
                 <input
                   type="file"
-                  accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.mp3"
+                  accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.mp3,.mp4"
                   onChange={handleFileUpload}
                   className="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-[#DFF3E3] file:text-[#2F3A32] file:cursor-pointer hover:file:bg-[#A8D5BA]"
                 />

@@ -268,6 +268,8 @@ export const dbService = {
         // Return dummy file based on type
         if (file.type.startsWith('audio/')) {
           resolve('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3');
+        } else if (file.type.startsWith('video/') || file.name.endsWith('.mp4')) {
+          resolve('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4');
         } else {
           resolve('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf');
         }
