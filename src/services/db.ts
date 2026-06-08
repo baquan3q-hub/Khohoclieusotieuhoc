@@ -18,17 +18,13 @@ export const dbService = {
   // =========================================================================
   async getLessons(): Promise<Lesson[]> {
     if (isSupabaseConfigured()) {
-      try {
-        const { data, error } = await supabase
-          .from('lessons')
-          .select('*')
-          .order('lesson_number', { ascending: true });
-        
-        if (error) throw error;
-        return data || [];
-      } catch (err) {
-        console.error('Supabase getLessons error, falling back to local data:', err);
-      }
+      const { data, error } = await supabase
+        .from('lessons')
+        .select('*')
+        .order('lesson_number', { ascending: true });
+      
+      if (error) throw error;
+      return data || [];
     }
     
     initLocalStorage();
@@ -38,18 +34,14 @@ export const dbService = {
 
   async getLessonBySlug(slug: string): Promise<Lesson | null> {
     if (isSupabaseConfigured()) {
-      try {
-        const { data, error } = await supabase
-          .from('lessons')
-          .select('*')
-          .eq('slug', slug)
-          .single();
-        
-        if (error) throw error;
-        return data;
-      } catch (err) {
-        console.error(`Supabase getLessonBySlug (${slug}) error, falling back to local data:`, err);
-      }
+      const { data, error } = await supabase
+        .from('lessons')
+        .select('*')
+        .eq('slug', slug)
+        .single();
+      
+      if (error) throw error;
+      return data;
     }
 
     initLocalStorage();
@@ -58,27 +50,23 @@ export const dbService = {
   },
 
   async createLesson(lesson: Omit<Lesson, 'id' | 'created_at' | 'updated_at'>): Promise<Lesson> {
+    if (isSupabaseConfigured()) {
+      const { data, error } = await supabase
+        .from('lessons')
+        .insert([lesson])
+        .select()
+        .single();
+      
+      if (error) throw error;
+      return data;
+    }
+
     const newLesson: Lesson = {
       ...lesson,
       id: 'lesson-' + Math.random().toString(36).substr(2, 9),
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };
-
-    if (isSupabaseConfigured()) {
-      try {
-        const { data, error } = await supabase
-          .from('lessons')
-          .insert([lesson])
-          .select()
-          .single();
-        
-        if (error) throw error;
-        return data;
-      } catch (err) {
-        console.error('Supabase createLesson error, saving to local data:', err);
-      }
-    }
 
     initLocalStorage();
     const lessons = JSON.parse(localStorage.getItem('lessons') || '[]');
@@ -89,19 +77,15 @@ export const dbService = {
 
   async updateLesson(id: string, lesson: Partial<Lesson>): Promise<Lesson> {
     if (isSupabaseConfigured()) {
-      try {
-        const { data, error } = await supabase
-          .from('lessons')
-          .update({ ...lesson, updated_at: new Date().toISOString() })
-          .eq('id', id)
-          .select()
-          .single();
-        
-        if (error) throw error;
-        return data;
-      } catch (err) {
-        console.error('Supabase updateLesson error, saving to local data:', err);
-      }
+      const { data, error } = await supabase
+        .from('lessons')
+        .update({ ...lesson, updated_at: new Date().toISOString() })
+        .eq('id', id)
+        .select()
+        .single();
+      
+      if (error) throw error;
+      return data;
     }
 
     initLocalStorage();
@@ -121,17 +105,13 @@ export const dbService = {
 
   async deleteLesson(id: string): Promise<void> {
     if (isSupabaseConfigured()) {
-      try {
-        const { error } = await supabase
-          .from('lessons')
-          .delete()
-          .eq('id', id);
-        
-        if (error) throw error;
-        return;
-      } catch (err) {
-        console.error('Supabase deleteLesson error, removing from local data:', err);
-      }
+      const { error } = await supabase
+        .from('lessons')
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
+      return;
     }
 
     initLocalStorage();
@@ -150,19 +130,15 @@ export const dbService = {
   // =========================================================================
   async getResources(lessonId?: string): Promise<Resource[]> {
     if (isSupabaseConfigured()) {
-      try {
-        let query = supabase.from('resources').select('*, lessons(title, lesson_number, slug)');
-        
-        if (lessonId) {
-          query = query.eq('lesson_id', lessonId);
-        }
-        
-        const { data, error } = await query;
-        if (error) throw error;
-        return data || [];
-      } catch (err) {
-        console.error('Supabase getResources error, falling back to local data:', err);
+      let query = supabase.from('resources').select('*, lessons(title, lesson_number, slug)');
+      
+      if (lessonId) {
+        query = query.eq('lesson_id', lessonId);
       }
+      
+      const { data, error } = await query;
+      if (error) throw error;
+      return data || [];
     }
 
     initLocalStorage();
@@ -189,27 +165,23 @@ export const dbService = {
   },
 
   async createResource(resource: Omit<Resource, 'id' | 'created_at' | 'updated_at'>): Promise<Resource> {
+    if (isSupabaseConfigured()) {
+      const { data, error } = await supabase
+        .from('resources')
+        .insert([resource])
+        .select()
+        .single();
+      
+      if (error) throw error;
+      return data;
+    }
+
     const newResource: Resource = {
       ...resource,
       id: 'res-' + Math.random().toString(36).substr(2, 9),
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };
-
-    if (isSupabaseConfigured()) {
-      try {
-        const { data, error } = await supabase
-          .from('resources')
-          .insert([resource])
-          .select()
-          .single();
-        
-        if (error) throw error;
-        return data;
-      } catch (err) {
-        console.error('Supabase createResource error, saving to local data:', err);
-      }
-    }
 
     initLocalStorage();
     const resources = JSON.parse(localStorage.getItem('resources') || '[]');
@@ -220,19 +192,15 @@ export const dbService = {
 
   async updateResource(id: string, resource: Partial<Resource>): Promise<Resource> {
     if (isSupabaseConfigured()) {
-      try {
-        const { data, error } = await supabase
-          .from('resources')
-          .update({ ...resource, updated_at: new Date().toISOString() })
-          .eq('id', id)
-          .select()
-          .single();
-        
-        if (error) throw error;
-        return data;
-      } catch (err) {
-        console.error('Supabase updateResource error, saving to local data:', err);
-      }
+      const { data, error } = await supabase
+        .from('resources')
+        .update({ ...resource, updated_at: new Date().toISOString() })
+        .eq('id', id)
+        .select()
+        .single();
+      
+      if (error) throw error;
+      return data;
     }
 
     initLocalStorage();
@@ -252,17 +220,13 @@ export const dbService = {
 
   async deleteResource(id: string): Promise<void> {
     if (isSupabaseConfigured()) {
-      try {
-        const { error } = await supabase
-          .from('resources')
-          .delete()
-          .eq('id', id);
-        
-        if (error) throw error;
-        return;
-      } catch (err) {
-        console.error('Supabase deleteResource error, removing from local data:', err);
-      }
+      const { error } = await supabase
+        .from('resources')
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
+      return;
     }
 
     initLocalStorage();
@@ -276,24 +240,25 @@ export const dbService = {
   // =========================================================================
   async uploadFile(file: File): Promise<string> {
     if (isSupabaseConfigured()) {
-      try {
-        // Clean filename: remove special characters, replace spaces with hyphens
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${Math.random().toString(36).substring(2, 15)}-${Date.now()}.${fileExt}`;
-        const filePath = `uploads/${fileName}`;
-
-        const { error } = await supabase.storage
-          .from('resources')
-          .upload(filePath, file);
-
-        if (error) throw error;
-
-        // Get public URL
-        const { data } = supabase.storage.from('resources').getPublicUrl(filePath);
-        return data.publicUrl;
-      } catch (err) {
-        console.error('Supabase file upload error, falling back to local file simulation:', err);
+      // Validate file size (max 50MB)
+      const maxSize = 50 * 1024 * 1024;
+      if (file.size > maxSize) {
+        throw new Error(`Kích thước tệp tin quá lớn (${(file.size / (1024 * 1024)).toFixed(1)}MB). Giới hạn tối đa là 50MB.`);
       }
+
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2, 15)}-${Date.now()}.${fileExt}`;
+      const filePath = `uploads/${fileName}`;
+
+      const { error } = await supabase.storage
+        .from('resources')
+        .upload(filePath, file);
+
+      if (error) throw error;
+
+      // Get public URL
+      const { data } = supabase.storage.from('resources').getPublicUrl(filePath);
+      return data.publicUrl;
     }
 
     // Offline mode: convert small files to Base64, or return public test URL for large files to avoid storage quota crash

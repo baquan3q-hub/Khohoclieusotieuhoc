@@ -69,10 +69,7 @@ create policy "Anyone can view published lessons"
 create policy "Admins have full access to lessons"
     on public.lessons for all
     using (
-        exists (
-            select 1 from public.profiles
-            where profiles.id = auth.uid() and profiles.role = 'admin'
-        )
+        (auth.jwt() ->> 'email') = 'baquan3q@gmail.com'
     );
 
 -- --- Bảng Resources ---
@@ -83,10 +80,7 @@ create policy "Anyone can view public resources"
 create policy "Admins have full access to resources"
     on public.resources for all
     using (
-        exists (
-            select 1 from public.profiles
-            where profiles.id = auth.uid() and profiles.role = 'admin'
-        )
+        (auth.jwt() ->> 'email') = 'baquan3q@gmail.com'
     );
 
 -- --- Bảng Profiles ---
@@ -101,10 +95,7 @@ create policy "Users can update their own profile"
 create policy "Admins have full access to profiles"
     on public.profiles for all
     using (
-        exists (
-            select 1 from public.profiles
-            where profiles.id = auth.uid() and profiles.role = 'admin'
-        )
+        (auth.jwt() ->> 'email') = 'baquan3q@gmail.com'
     );
 
 -- =========================================================================

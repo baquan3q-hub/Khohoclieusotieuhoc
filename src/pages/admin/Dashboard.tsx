@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { dbService } from '../../services/db';
+import { isSupabaseConfigured } from '../../lib/supabase';
 import type { Lesson, Resource } from '../../types';
 import {
   LayoutDashboard,
@@ -123,6 +124,38 @@ export const Dashboard: React.FC = () => {
           </button>
         </div>
       </div>
+
+      {/* DB Connection Status Banner */}
+      {isSupabaseConfigured() ? (
+        <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 flex items-center justify-between text-[#2F3A32]">
+          <div className="flex items-center space-x-3">
+            <span className="flex h-3.5 w-3.5 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500"></span>
+            </span>
+            <div>
+              <p className="text-sm font-bold text-emerald-900">🟢 Đã kết nối Supabase Cloud (Dữ liệu đồng bộ trực tiếp)</p>
+              <p className="text-xs text-emerald-700">Mọi học liệu tải lên sẽ được hiển thị công khai ngay lập tức cho tất cả khách xem trang.</p>
+            </div>
+          </div>
+          <span className="hidden sm:inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold font-mono">
+            supabase-cloud
+          </span>
+        </div>
+      ) : (
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-center justify-between text-[#2F3A32]">
+          <div className="flex items-center space-x-3">
+            <span className="h-3.5 w-3.5 rounded-full bg-amber-500"></span>
+            <div>
+              <p className="text-sm font-bold text-amber-950">🟠 Đang chạy Local Storage (Ngoại tuyến / Chế độ Demo)</p>
+              <p className="text-xs text-amber-700">Dữ liệu được lưu trong trình duyệt hiện tại của bạn. Khách truy cập khác sẽ không nhìn thấy.</p>
+            </div>
+          </div>
+          <span className="hidden sm:inline-block px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold font-mono">
+            local-storage
+          </span>
+        </div>
+      )}
 
       {/* Tabs list */}
       <div className="flex space-x-2 border-b border-[#E6E4DD]">

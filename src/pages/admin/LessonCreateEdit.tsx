@@ -111,9 +111,16 @@ export const LessonCreateEdit: React.FC = () => {
         alert('Tạo bài học mới thành công!');
       }
       navigate('/admin/dashboard');
-    } catch (err) {
-      alert('Đã xảy ra lỗi khi lưu thông tin bài học.');
+    } catch (err: any) {
       console.error(err);
+      let errorMsg = 'Đã xảy ra lỗi khi lưu thông tin bài học.';
+      if (err.message) {
+        errorMsg += `\n\nChi tiết lỗi: ${err.message}`;
+        if (err.message.includes('row-level security') || err.code === '42501') {
+          errorMsg += '\n\nGợi ý: Thao tác bị chặn bởi chính sách bảo mật (Row Level Security). Vui lòng đảm bảo bạn đã đăng nhập bằng tài khoản Admin thật của Supabase (Email/Mật khẩu), thay vì tài khoản demo bypass.';
+        }
+      }
+      alert(errorMsg);
     } finally {
       setSubmitting(false);
     }

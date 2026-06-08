@@ -97,7 +97,9 @@ export const Login: React.FC = () => {
             • Email admin mặc định: <strong className="font-semibold text-emerald-950">baquan3q@gmail.com</strong>
           </p>
           <p className="text-[#6B756D]">
-            * Bạn có thể tự tạo tài khoản này trong Supabase console (Authentication &gt; Users) để đăng nhập bảo mật bằng Email/Mật khẩu hoặc chọn Bypass bên dưới để dùng cục bộ.
+            {hasSupabase 
+              ? "* Vui lòng nhập email và mật khẩu của tài khoản Admin được tạo trong Supabase console để đăng nhập."
+              : "* Bạn có thể tự tạo tài khoản này trong Supabase console (Authentication > Users) để đăng nhập bằng Email/Mật khẩu hoặc chọn Bypass bên dưới để dùng cục bộ."}
           </p>
         </div>
 
@@ -176,15 +178,17 @@ export const Login: React.FC = () => {
             </button>
           )}
 
-          <button
-            onClick={handleMockLogin}
-            disabled={authLoading}
-            className="w-full flex items-center justify-center space-x-2 py-2.5 px-4 rounded-xl bg-orange-50 border border-orange-200 text-orange-800 text-xs font-bold hover:bg-orange-100 active:scale-98 transition-all cursor-pointer"
-            title="Sử dụng local storage để chỉnh sửa học liệu không cần kết nối tài khoản"
-          >
-            <Play size={14} className="text-orange-700" />
-            <span>Đăng nhập nhanh Demo (Bypass OAuth)</span>
-          </button>
+          {!hasSupabase && (
+            <button
+              onClick={handleMockLogin}
+              disabled={authLoading}
+              className="w-full flex items-center justify-center space-x-2 py-2.5 px-4 rounded-xl bg-orange-50 border border-orange-200 text-orange-800 text-xs font-bold hover:bg-orange-100 active:scale-98 transition-all cursor-pointer"
+              title="Sử dụng local storage để chỉnh sửa học liệu không cần kết nối tài khoản"
+            >
+              <Play size={14} className="text-orange-700" />
+              <span>Đăng nhập nhanh Demo (Bypass OAuth)</span>
+            </button>
+          )}
         </div>
 
         {/* Back Link */}
