@@ -20,7 +20,7 @@ export const About: React.FC = () => {
           Concept: Khu vườn truyện kể
         </h2>
         <p className="text-base text-[#6B756D] leading-relaxed">
-          Chúng tôi xem mỗi câu chuyện văn học trong sách giáo khoa Ngữ văn lớp 4 như một hạt giống tâm hồn tốt đẹp. Giáo viên tiểu học và sinh viên sư phạm là những người gieo mầm và nâng đỡ. Để hạt giống đó nảy mầm, đơm hoa kết trái trong lòng học sinh, chúng tôi cung cấp những <strong>học liệu số và mô tả hoạt động giảng dạy</strong> như những chất xúc tác khoa học, sinh động nhất.
+          Chúng tôi xem mỗi câu chuyện văn học trong sách giáo khoa Tiếng Việt lớp 4 như một hạt giống tâm hồn tốt đẹp. Giáo viên tiểu học và sinh viên sư phạm là những người gieo mầm và nâng đỡ. Để hạt giống đó nảy mầm, đơm hoa kết trái trong lòng học sinh, chúng tôi cung cấp những <strong>học liệu số và mô tả hoạt động giảng dạy</strong> như những chất xúc tác khoa học, sinh động nhất.
         </p>
       </div>
 
