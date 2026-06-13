@@ -61,7 +61,7 @@ export const Home: React.FC = () => {
               </h1>
               
               <p className="text-lg text-[#6B756D] leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                Kho học liệu số sinh động hỗ trợ Giáo viên tiểu học và Sinh viên sư phạm thiết kế, tổ chức hiệu quả hoạt động dạy học đọc hiểu văn bản truyện Ngữ văn lớp 4.
+                Kho học liệu số sinh động hỗ trợ Giáo viên tiểu học và Sinh viên sư phạm thiết kế, tổ chức hiệu quả hoạt động dạy học đọc hiểu văn bản truyện Tiếng Việt lớp 4.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
